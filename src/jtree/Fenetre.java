@@ -5,14 +5,17 @@ import java.io.File;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class Fenetre extends JFrame {
+
 	private JTree arbre;
 	private DefaultMutableTreeNode racine;
 
 	public Fenetre() {
-		this.setSize(300, 300);
+		this.setSize(300, 200);
 		this.setLocationRelativeTo(null);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setTitle("Les arbres");
@@ -39,17 +42,23 @@ public class Fenetre extends JFrame {
 		}
 		// Nous créons, avec notre hiérarchie, un arbre
 		arbre = new JTree(this.racine);
+		arbre.setRootVisible(false);
+		arbre.addTreeSelectionListener(new TreeSelectionListener() {
+
+			public void valueChanged(TreeSelectionEvent event) {
+				if (arbre.getLastSelectedPathComponent() != null) {
+					System.out.println(arbre.getLastSelectedPathComponent().toString());
+				}
+			}
+		});
 		// Que nous plaçons sur le ContentPane de notre JFrame à l'aide d'un scroll
 		this.getContentPane().add(new JScrollPane(arbre));
 	}
 
 	private DefaultMutableTreeNode listFile(File file, DefaultMutableTreeNode node) {
 		int count = 0;
-
 		if (file.isFile())
-		{
 			return new DefaultMutableTreeNode(file.getName());
-		}
 		else {
 			File[] list = file.listFiles();
 			if (list == null)
