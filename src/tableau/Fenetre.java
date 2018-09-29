@@ -65,12 +65,23 @@ public class Fenetre extends JFrame {
 			return this.title[col];
 
 		}
-		//Retourne la classe de la donnée de la colonne
-		public Class getColumnClass(int col){
-		  //On retourne le type de la cellule à la colonne demandée
-		  //On se moque de la ligne puisque les types de données sont les mêmes quelle que soit la ligne
-		  //On choisit donc la première ligne
-		  return this.data[0][col].getClass();
+
+		// Retourne la classe de la donnée de la colonne
+		public Class getColumnClass(int col) {
+			// On retourne le type de la cellule à la colonne demandée
+			// On se moque de la ligne puisque les types de données sont les mêmes quelle
+			// que soit la ligne
+			// On choisit donc la première ligne
+			return this.data[0][col].getClass();
+		}
+
+		// Retourne vrai si la cellule est éditable : celle-ci sera donc éditable
+		public boolean isCellEditable(int row, int col) {
+			// On appelle la méthode getValueAt qui retourne la valeur d'une cellule
+			// Et on effectue un traitement spécifique si c'est un JButton
+			if (getValueAt(row, col) instanceof JButton)
+				return false;
+			return true;
 		}
 	}
 
